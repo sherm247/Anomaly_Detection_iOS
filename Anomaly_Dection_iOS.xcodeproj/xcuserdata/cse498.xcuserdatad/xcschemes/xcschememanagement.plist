@@ -4,10 +4,33 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Anomaly_Dection_iOS 2.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 		<key>Anomaly_Dection_iOS.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>84EB3F0F215C476C00FE2621</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>84EB3F23215C476F00FE2621</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>84EB3F2E215C476F00FE2621</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>
