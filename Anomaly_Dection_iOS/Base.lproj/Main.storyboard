@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Fdj-dH-Xmg">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Fdj-dH-Xmg">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -51,8 +50,34 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="Xxg-tQ-Yil"/>
                                 </connections>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1I9-TR-TTo">
+                                <rect key="frame" x="0.0" y="64" width="140" height="603"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tnH-mf-Lmu">
+                                        <rect key="frame" x="49" y="33" width="42" height="30"/>
+                                        <state key="normal" title="Credit"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jme-fO-zJ5">
+                                        <rect key="frame" x="52" y="105" width="37" height="30"/>
+                                        <state key="normal" title="Debit"/>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="jme-fO-zJ5" firstAttribute="leading" secondItem="1I9-TR-TTo" secondAttribute="leading" constant="52" id="6ww-e1-ZTk"/>
+                                    <constraint firstItem="tnH-mf-Lmu" firstAttribute="leading" secondItem="1I9-TR-TTo" secondAttribute="leading" constant="49" id="8f5-mb-vfE"/>
+                                    <constraint firstItem="tnH-mf-Lmu" firstAttribute="top" secondItem="1I9-TR-TTo" secondAttribute="top" constant="33" id="Zpy-kc-0nV"/>
+                                    <constraint firstAttribute="width" constant="140" id="mYg-XW-gco"/>
+                                    <constraint firstItem="jme-fO-zJ5" firstAttribute="top" secondItem="tnH-mf-Lmu" secondAttribute="bottom" constant="42" id="yQV-E7-Ryb"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="1I9-TR-TTo" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="D7T-oc-zuV"/>
+                            <constraint firstItem="1I9-TR-TTo" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="gYs-GR-gW9"/>
+                            <constraint firstItem="1I9-TR-TTo" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="p9m-1I-XrT"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="MSUFCU" id="mWF-KJ-66a">
@@ -70,6 +95,30 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1076" y="132.68365817091455"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="VtE-T2-3nB">
+            <objects>
+                <viewController id="5Xw-ZS-8jZ" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="qIU-zY-RwW">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Credit" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zki-yI-Gbd">
+                                <rect key="frame" x="137" y="139" width="112" height="52"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="43"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="ULv-GE-lDJ"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="z6r-P3-Hc4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1922" y="136"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="eXp-Gn-4UP">

@@ -7,6 +7,8 @@
 //
 
 import UIKit
+//import SwiftyJSON
+//import Alamofire
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -24,31 +26,96 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //let cell = UITableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "Cell")
-        let cell = UITableViewCell(style: <#T##UITableViewCellStyle#>, reuseIdentifier: "Cell")
+        let cell = UITableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "Cell")
+        //let cell = UITableViewCell(style: <#T##UITableViewCellStyle#>, reuseIdentifier: "Cell")
         cell.textLabel?.text = list[indexPath.row]
         return(cell)
     }
+    
+    
+    //Alamofire.request(.GET, url, params)
+    
+    /*let params = ["Date": dateStr,"Acceptor": acceptorStr, "State": stateStr, "Posted Amount": postedAmountStr]
+        Alamofire.request(.GET, API_BASE_URL, parameters: params)
+            .responseJSON { response in
+                if let transactions = response.result.value {
+                    print("JSON: \(transactions)")
+                    if let error = transactions["error"] {
+                        print("No transaction found | error :\(error)")
+                        self.restaurantName.text = "Nothing found! Try again"
+                        self.stopSpinner(nil)
+                        return
+                    }
+                    let transCount = transactions.count
+                    print(" count : \(transactions.count)")
+                    if (transCount == 0) {
+                        print("No transaction found")
+                        self.restaurantName.text = "Nothing found! Try again"
+                        self.stopSpinner(nil)
+                        return
+                    }
+                    let transLimit = min(transCount, 50)
+                    let randomTransactionIndex = Int(arc4random_uniform(UInt32(venueLimit)))
+                    print(randomTransactionIndex)
+                    guard let results = transactions as? NSArray
+                        else {
+                            print ("cannot find key location in \(transactions)")
+                            return
+                    }
+                    for r in results{
+                        let photoURL = NSURL(string:r["photo_url"] as! String)
+                        if let imageData = NSData(contentsOfURL: photoURL!) {
+                                let image  = UIImage(data: imageData)
+    
+                            let date = r["date"] as! String
+                            let acceptor = r["acceptor"] as! String
+                            let state = r["state"] as! String
+                            let posted_amount = r["posted amount"] as! String
+                            let transaction = Transaction(date: date, acceptor: acceptor, state: state, posted_amount: posted_amount)!
+                            self.transactions.append(transaction)
+    
+                            print("\(date) \(acceptor) \(state) \(posted_amount)")
+                        }
+    
+                    }
+                    let randomTransaction = self.transaction[randomTransactionIndex]
+                    self.setRandomTransaction(randomTransaction)
+    
+                    self.saveTransaction()
+                    self.stopSpinner(nil)
+                }
+            }*/
     
     //MARK: Properties
     @IBOutlet weak var nameText: UILabel!
     @IBOutlet var White: [UIImageView]!
     @IBOutlet var MSUFCU: [UILabel]!
-    @IBOutlet weak var ProfileButton: UIButton!
     @IBOutlet weak var TransactionsLabel: UILabel!
-    @IBOutlet weak var WhiteBar2: UIImageView!
-    @IBOutlet weak var AccountsImg: UIImageView!
-    @IBOutlet weak var MoveMoneyImg: UIImageView!
-    @IBOutlet weak var eDepositImg: UIImageView!
-    @IBOutlet weak var MyOffersImg: UIImageView!
     @IBOutlet weak var AccountsLabel: UILabel!
     @IBOutlet weak var MoveMoneyLabel: UILabel!
     @IBOutlet weak var eDepositLabel: UILabel!
     @IBOutlet weak var MyOffersLabel: UILabel!
     @IBOutlet weak var EmbeddedTable: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        print("test")
+        
+        let urlString = URL(string: "http://127.0.0.1:8000/api/transactions/?account=3243617280")
+        
+        if let url = urlString {
+            let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+                if error != nil {
+                    print(error)
+                } else {
+                    if let usableData = data {
+                        print(usableData) //JSONSerialization
+                    }
+                }
+            }
+            task.resume()
+        }
         
     }
 
