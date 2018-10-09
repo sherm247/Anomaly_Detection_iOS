@@ -97,9 +97,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var MyOffersLabel: UILabel!
     @IBOutlet weak var EmbeddedTable: UIView!
     
+    @IBOutlet weak var menuView: UIView!
+    @IBOutlet weak var leadingContraint: NSLayoutConstraint!
+    
+    var menuShowing = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        menuView.layer.shadowOpacity = 1
+        menuView.layer.shadowRadius = 6
+        
         print("test")
         
         let urlString = URL(string: "http://127.0.0.1:8000/api/transactions/?account=3243617280")
@@ -117,6 +125,23 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             task.resume()
         }
         
+        
+    }
+    
+    @IBAction func openMenu(_ sender: Any) {
+        
+        if (menuShowing) {
+            leadingContraint.constant = -150
+        }else{
+            leadingContraint.constant = 0
+            
+            UIView.animate(withDuration: 0.3,
+                           animations: {
+                            self.view.layoutIfNeeded()
+            })
+        }
+        
+        menuShowing = !menuShowing
     }
 
 

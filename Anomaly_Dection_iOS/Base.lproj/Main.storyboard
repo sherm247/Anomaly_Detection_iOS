@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Fdj-dH-Xmg">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Fdj-dH-Xmg">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -50,12 +51,15 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="Xxg-tQ-Yil"/>
                                 </connections>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1I9-TR-TTo">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1I9-TR-TTo">
                                 <rect key="frame" x="0.0" y="64" width="140" height="603"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tnH-mf-Lmu">
                                         <rect key="frame" x="49" y="33" width="42" height="30"/>
                                         <state key="normal" title="Credit"/>
+                                        <connections>
+                                            <segue destination="5Xw-ZS-8jZ" kind="show" id="ztP-Wu-XMd"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jme-fO-zJ5">
                                         <rect key="frame" x="52" y="105" width="37" height="30"/>
@@ -74,7 +78,7 @@
                         </subviews>
                         <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="1I9-TR-TTo" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="D7T-oc-zuV"/>
+                            <constraint firstItem="1I9-TR-TTo" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="-150" id="D7T-oc-zuV"/>
                             <constraint firstItem="1I9-TR-TTo" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="gYs-GR-gW9"/>
                             <constraint firstItem="1I9-TR-TTo" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="p9m-1I-XrT"/>
                         </constraints>
@@ -84,10 +88,15 @@
                         <barButtonItem key="leftBarButtonItem" title="Item" image="hamburgermenu" id="hwK-Gu-bt3">
                             <inset key="imageInsets" minX="-130" minY="0.0" maxX="0.0" maxY="0.0"/>
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="openMenu:" destination="BYZ-38-t0r" id="pX0-fG-43K"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="TransactionsLabel" destination="yhT-0c-Cv7" id="91q-ym-Ub0"/>
+                        <outlet property="leadingContraint" destination="D7T-oc-zuV" id="Csy-8K-OOE"/>
+                        <outlet property="menuView" destination="1I9-TR-TTo" id="tHp-qO-rUN"/>
                         <outlet property="nameText" destination="ajN-Xb-nK1" id="ODa-EP-S9R"/>
                         <outletCollection property="MSUFCU" destination="ajN-Xb-nK1" collectionClass="NSMutableArray" id="LZ3-4a-QzU"/>
                     </connections>
@@ -112,7 +121,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                         <viewLayoutGuide key="safeArea" id="ULv-GE-lDJ"/>
                     </view>
                 </viewController>
