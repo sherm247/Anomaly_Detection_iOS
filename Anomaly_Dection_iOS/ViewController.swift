@@ -12,14 +12,20 @@ import UIKit
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    let list = ["Type...................Credit Card",
-                "Transaction Amount.....-$31.42",
-                "Posted Date............Oct 2, 2018",
-                "Transaction Date.......Oct 1, 2018",
-                "Card Number............x1234",
-                "New Balance............$271.83",
-                "Description............WALMART 3452 CUSCO",
-                "Warnings...............POTENTIAL FRAUDULENT TRANSACTION"]
+    let list = ["Type       Credit Card",
+                "Transaction Amount     -$31.42",
+                "Posted Date        Oct 2, 2018",
+                "Transaction Date       Oct 1, 2018",
+                "Card Number        x1234",
+                "New Balance        $271.83",
+                "Description        WALMART 3452 CUSCO",
+                "Warnings       POTENTIAL FRAUD"]
+    let lists = [["Data":"Type","Details":"Credit Card"],
+                 ["Data":"Transaction Amount","Details":"Posted Date"],
+                 ["Data":"Card Number","Details":"x1234"],
+                 ["Data":"New Balance","Details":"$271.83"],
+                 ["Data":"Description","Details":"WALMART 3452 CUSCO"],
+                 ["Data":"Warnings","Details":"POTENTIAL FRAUD"]]
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return(list.count)
@@ -105,6 +111,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
         menuView.layer.shadowOpacity = 1
         menuView.layer.shadowRadius = 6
         
