@@ -17,15 +17,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 "Posted Date        Oct 2, 2018",
                 "Transaction Date       Oct 1, 2018",
                 "Card Number        x1234",
-                "New Balance        $271.83",
                 "Description        WALMART 3452 CUSCO",
                 "Warnings       POTENTIAL FRAUD"]
-    let lists = [["Data":"Type","Details":"Credit Card"],
-                 ["Data":"Transaction Amount","Details":"Posted Date"],
-                 ["Data":"Card Number","Details":"x1234"],
-                 ["Data":"New Balance","Details":"$271.83"],
-                 ["Data":"Description","Details":"WALMART 3452 CUSCO"],
-                 ["Data":"Warnings","Details":"POTENTIAL FRAUD"]]
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return(list.count)
@@ -39,58 +32,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     
-    //Alamofire.request(.GET, url, params)
     
-    /*let params = ["Date": dateStr,"Acceptor": acceptorStr, "State": stateStr, "Posted Amount": postedAmountStr]
-        Alamofire.request(.GET, API_BASE_URL, parameters: params)
-            .responseJSON { response in
-                if let transactions = response.result.value {
-                    print("JSON: \(transactions)")
-                    if let error = transactions["error"] {
-                        print("No transaction found | error :\(error)")
-                        self.restaurantName.text = "Nothing found! Try again"
-                        self.stopSpinner(nil)
-                        return
-                    }
-                    let transCount = transactions.count
-                    print(" count : \(transactions.count)")
-                    if (transCount == 0) {
-                        print("No transaction found")
-                        self.restaurantName.text = "Nothing found! Try again"
-                        self.stopSpinner(nil)
-                        return
-                    }
-                    let transLimit = min(transCount, 50)
-                    let randomTransactionIndex = Int(arc4random_uniform(UInt32(venueLimit)))
-                    print(randomTransactionIndex)
-                    guard let results = transactions as? NSArray
-                        else {
-                            print ("cannot find key location in \(transactions)")
-                            return
-                    }
-                    for r in results{
-                        let photoURL = NSURL(string:r["photo_url"] as! String)
-                        if let imageData = NSData(contentsOfURL: photoURL!) {
-                                let image  = UIImage(data: imageData)
-    
-                            let date = r["date"] as! String
-                            let acceptor = r["acceptor"] as! String
-                            let state = r["state"] as! String
-                            let posted_amount = r["posted amount"] as! String
-                            let transaction = Transaction(date: date, acceptor: acceptor, state: state, posted_amount: posted_amount)!
-                            self.transactions.append(transaction)
-    
-                            print("\(date) \(acceptor) \(state) \(posted_amount)")
-                        }
-    
-                    }
-                    let randomTransaction = self.transaction[randomTransactionIndex]
-                    self.setRandomTransaction(randomTransaction)
-    
-                    self.saveTransaction()
-                    self.stopSpinner(nil)
-                }
-            }*/
     
     //MARK: Properties
     @IBOutlet weak var nameText: UILabel!
@@ -112,28 +54,108 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        struct Account: Decodable {
+            let transactions: [Transaction]
+            
+            enum CodingKeys : String, CodingKey {
+                case transactions
+            }
+        }
+        
+        struct Transaction: Decodable {
+            let id: String
+            let processor_account: String
+            let post_amount: String
+            let card_acceptor_name: String
+            let card_acceptor_city: String
+            let card_acceptor_country: String
+            let fraud_flag: Bool
+        }
+        
         menuView.layer.shadowOpacity = 1
         menuView.layer.shadowRadius = 6
         
-        print("test")
+    }
+    
+    
+    func getData() -> Array<Any> {
         
-        let urlString = URL(string: "http://127.0.0.1:8000/api/transactions/?account=3243617280")
+        let urlString = URL(string: "http://django-env.zqqwi3vey2.us-east-1.elasticbeanstalk.com/api/transactions/?account=3243617280")
         
+        //var list_of_lists = Array<Any>()
+        
+        var temp_list = Array<Any>()
+    
         if let url = urlString {
             let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
                 if error != nil {
-                    print(error)
+                    print(error!)
                 } else {
                     if let usableData = data {
-                        print(usableData) //JSONSerialization
+                        //print(usableData) //JSONSerialization
+                        if let json = try? JSONSerialization.jsonObject(with: usableData, options: []) as? [[String: Any]] {
+                            
+                            for transaction in json!{
+                                //print(transaction)
+                                //print(transaction["id"]!)
+                                //let trans_id = transaction["id"] as? String
+                                let type = transaction["tran_sub_type"] as? Int
+                                let amount = transaction["post_amount"] as? Float
+                                let date = transaction["our_transmission_date"] as? String
+                                let card_number = transaction["processor_account"] as? String
+                                let description = transaction["card_acceptor_name"] as? String
+                                let fraud_flag = transaction["fraud_flag"] as? Int
+                                
+                                temp_list = [type, amount, date, card_number, description, fraud_flag] //as [Any]
+                                
+                                func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+                                    
+                                    return(temp_list.count)
+                                }
+                                
+                                func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) ->
+                                    UITableViewCell {
+                                        
+                                        let cell = UITableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "Cell")
+                                        //let cell = UITableViewCell(style: <#T##UITableViewCellStyle#>, reuseIdentifier: "Cell")
+                                        cell.textLabel?.text = temp_list[indexPath.row] as? String
+                                        return(cell)
+                                }
+                                
+                                //list_of_lists += list
+                                
+                                /*for item in temp_list{
+                                    print(item)
+                                }*/
+                                
+                                
+                                //print(transaction["fraud_flag"]!)
+                                /*let fraud_flag = "1"
+                                 if (fraud_flag as Any? === transaction["fraud_flag"]){
+                                 print("POTENTIAL FRAUD")
+                                 }*/
+                            }
+                            //return temp_list
+                        }
+                        /*for item in temp_list{
+                            print(item)
+                        }*/
+                        print("able to access data")
                     }
                 }
+                for item in temp_list{
+                    print(item)
+                }
+                
             }
             task.resume()
         }
+        //print("test")
         
+        return temp_list
         
     }
+    
     
     @IBAction func openMenu(_ sender: Any) {
         
