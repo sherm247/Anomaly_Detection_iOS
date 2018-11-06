@@ -12,14 +12,17 @@ import UIKit
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    var transactions:[(cardAcceptor:Any, postAmount:Any, date:Any,
-        cardNum:Any, fraudFlag:Any)]?
+    var transactions:[(cardAcceptor:String, postAmount:NSNumber, date:String,
+    cardNum:String, fraudFlag:NSNumber, cardAcceptorCity:String, cardAcceptorState:String, cardAcceptorCountry:String)]?
     
-    private var cardAcceptorValue:[Any] = []
-    private var postAmountValue:[Any] = []
-    private var dateValue:[Any] = []
-    private var cardNumValue:[Any] = []
-    private var fraudFlagValue:[Any] = []
+    private var cardAcceptorValue:[String] = []
+    private var postAmountValue:[NSNumber] = []
+    private var dateValue:[String] = []
+    private var cardNumValue:[String] = []
+    private var fraudFlagValue:[NSNumber] = []
+    private var cardAcceptorCityValue:[String] = []
+    private var cardAcceptorStateValue:[String] = []
+    private var cardAcceptorCountryValue:[String] = []
     
     @IBOutlet weak var menuView: UIView!
     @IBOutlet weak var leadingContraint: NSLayoutConstraint!
@@ -40,7 +43,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func callDtaFromWeb(){
-        let request = URLRequest(url: URL(string:"http://django-env.zqqwi3vey2.us-east-1.elasticbeanstalk.com/api/transactions/?account=3438561154")!)
+        let request = URLRequest(url: URL(string:"http://django-env.zqqwi3vey2.us-east-1.elasticbeanstalk.com/api/transactions/?account=1387654812")!)
         httpGet(request: request){
             (data, error) -> Void in
             if error != nil {
@@ -51,20 +54,24 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 
                 if let json = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [[String: Any]] {
                     
-                    print(json?.count)
+                    //print(json?.count)
                     
                     var x = 0
                     
                     for transaction in json!{
-                        print(transaction["post_amount"]!)
-                        self.postAmountValue.append(String(format: "%.2f",transaction["post_amount"] as! float_t))
-                        print(self.postAmountValue[0])
-                        self.cardAcceptorValue.append(transaction["card_acceptor_name"]!)
-                        self.dateValue.append(transaction["our_transmission_date"]!)
-                        self.cardNumValue.append(transaction["processor_account"]!)
-                        self.fraudFlagValue.append(transaction["fraud_flag"]!)
+                        //print(transaction["post_amount"]!)
+                        self.postAmountValue.append(transaction["post_amount"]! as! NSNumber)
+                        //self.postAmountValue.append(String(format: "%.2f",transaction["post_amount"] as! float_t))
+                        //print(self.postAmountValue[0])
+                        self.cardAcceptorValue.append(transaction["card_acceptor_name"]! as! String)
+                        self.dateValue.append(transaction["our_transmission_date"]! as! String)
+                        self.cardNumValue.append(transaction["processor_account"]! as! String)
+                        self.fraudFlagValue.append(transaction["fraud_flag"]! as! NSNumber)
+                        self.cardAcceptorCityValue.append(transaction["card_acceptor_city"]! as! String)
+                        self.cardAcceptorStateValue.append(transaction["card_acceptor_state"]! as! String)
+                        self.cardAcceptorCountryValue.append(transaction["card_acceptor_country"]! as! String)
                         
-                        let trans = (self.postAmountValue[x], self.cardAcceptorValue[x], self.dateValue[x], self.cardNumValue[x], self.fraudFlagValue[x])
+                        let trans = (self.cardAcceptorValue[x], self.postAmountValue[x], self.dateValue[x], self.cardNumValue[x], self.fraudFlagValue[x], self.cardAcceptorCityValue[x], self.cardAcceptorStateValue[x], self.cardAcceptorCountryValue[x])
                         self.transactions?.append(trans)
                         
                         x += 1
@@ -73,7 +80,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 
             }
             
-            self.postAmountValue.append("40.00")
+            /*var indx = 0
+            for transaction in self.transactions!{
+                if transaction.fraudFlag != 0{
+                    self.transactions?.remove(at: indx)
+                    self.transactions?.insert(transaction, at: 0)
+                }
+                indx += 1
+            }*/
+            
+            /*self.postAmountValue.append("40.00")
             self.cardAcceptorValue.append("MSUFCU")
             self.dateValue.append("November 2, 2018")
             self.cardNumValue.append("1234567")
@@ -95,7 +111,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.cardAcceptorValue.append("MEIJER")
             self.dateValue.append("November 2, 2018")
             self.cardNumValue.append("1234567")
-            self.fraudFlagValue.append("2")
+            self.fraudFlagValue.append("2")*/
             
             DispatchQueue.main.async {
                 self.transactionTable.reloadData()
@@ -152,36 +168,59 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             print(transaction.postAmount)
         }*/
         
-        cell?.textLabel?.text = self.cardAcceptorValue[indexPath.row] as? String;
-        print(self.cardAcceptorValue[0] as? String)
-        cell?.detailTextLabel?.text = self.postAmountValue[indexPath.row] as? String;
-        print(self.postAmountValue[0] as? String)
+        cell?.textLabel?.text = self.cardAcceptorValue[indexPath.row]
+        //print(self.cardAcceptorValue[0] as? String)
+        cell?.detailTextLabel?.text = String(format:"$%.2f", self.postAmountValue[indexPath.row].doubleValue)
+        cell?.detailTextLabel?.textColor = UIColor.black
+        //print(self.postAmountValue[0] as? String)
     
         //cell.textLabel?.text = "Walmart";
         //cell.detailTextLabel?.text = "-$35.33";
+        
+        if self.fraudFlagValue[indexPath.row] == 3{
+            cell?.backgroundColor = UIColor.red
+        }else if self.fraudFlagValue[indexPath.row] == 2{
+            cell?.backgroundColor = UIColor.yellow
+        }else if self.fraudFlagValue[indexPath.row] == 1{
+            cell?.backgroundColor = UIColor.orange
+        }else{
+            cell?.backgroundColor = UIColor.clear
+        }
         
         return cell!
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let cardAcceptor = self.cardAcceptorValue[indexPath.row] as! String
-        let postAmount = self.cardAcceptorValue[indexPath.row] as! String
-        let date = self.dateValue[indexPath.row] as! String
-        let cardNum = self.cardNumValue[indexPath.row] as! String
-        var fraudFlag = self.fraudFlagValue[indexPath.row] as! String
+        let cardAcceptor = self.cardAcceptorValue[indexPath.row]
+        let postAmount = self.postAmountValue[indexPath.row]
+        let date = self.dateValue[indexPath.row]
+        let cardNum = self.cardNumValue[indexPath.row]
+        let fraudFlag = self.fraudFlagValue[indexPath.row]
+        var _ff = ""
+        let city = self.cardAcceptorCityValue[indexPath.row]
+        let state = self.cardAcceptorStateValue[indexPath.row]
+        let country = self.cardAcceptorCountryValue[indexPath.row]
+        let location = city + ", " + state + ", " + country
         
-        if fraudFlag == "0"{
-            fraudFlag = "None"
-        }else if fraudFlag == "1"{
-            fraudFlag = "THIS RECURRING PAYMENT HAS INCREASED"
-        }else if fraudFlag == "2"{
-            fraudFlag = "THIS PAYMENT IS POTENTIALLY FRAUDULENT"
-        }else if fraudFlag == "3"{
-            fraudFlag = "THIS PAYMENT IS LIKELY FRAUDULENT"
+        if fraudFlag == 0{
+            _ff = "None"
+        }else if fraudFlag == 1{
+            _ff = "THIS RECURRING PAYMENT HAS INCREASED"
+        }else if fraudFlag == 2{
+            _ff = "THIS PAYMENT IS POTENTIALLY FRAUDULENT"
+        }else if fraudFlag == 3{
+            _ff = "THIS PAYMENT IS LIKELY FRAUDULENT"
         }
         
-        let msg = "Description: " + cardAcceptor + " \n " + "Amount: " + postAmount + " \n " + "Date: " + date + " \n " + "Card Number: " + cardNum + " \n " + "Warnings: " + fraudFlag
+        var msg = "Description: " + cardAcceptor + " " + location +  " \n " + "Amount: "
+        msg += String(format:"$%.2f", postAmount.doubleValue)
+        msg += " \n " + "Date: " + date + " \n " + "Card Number: "
+        msg += cardNum
+        msg += " \n " + "Warnings: "
+        msg += _ff + " \n "
+        msg += "Fraud Flag: "
+        msg += String(format:"%i", fraudFlag.intValue)
         let alert = UIAlertController(title: "Transaction Details", message: msg, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alert, animated: true)
